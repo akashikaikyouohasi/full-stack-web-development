@@ -2,5 +2,6 @@
 [実装で学ぶフルスタックWeb開発 エンジニアの視野と知識を広げる「一気通貫」型ハンズオン](https://www.shoeisha.co.jp/book/detail/9784798179834)の学習用のリポジトリです
 
 ## メモ
-TBD
+- MySQLの初期データ
+    - https://dev.mysql.com/doc/index-other.html
 
