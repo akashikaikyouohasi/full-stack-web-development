@@ -4,4 +4,5 @@
 ## メモ
 - MySQLの初期データ
     - https://dev.mysql.com/doc/index-other.html
-
+- Next.jsの初期化コマンド
+    - `yarn create next-app frontend --ts --eslint`
