@@ -1,7 +1,13 @@
-import type { NextConfig } from "next";
+/** @type {import('next').NextConfig }*/
 
-const nextConfig: NextConfig = {
-  /* config options here */
-};
-
-export default nextConfig;
+const nextConfig = {};
+module.exports = {
+  async rewites() {
+    return [
+      {
+        source: 'api/:path*',
+        destination: 'http://host.docker/internal:8000/api/:path*/',
+      },
+    ]
+  }
+}
