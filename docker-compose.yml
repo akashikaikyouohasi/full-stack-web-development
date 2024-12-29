@@ -12,7 +12,6 @@ services:
     ports:
       - 53306:3306
   frontend:
-    platform: linux/arm64/v8
     build:
       context: app/frontend
       dockerfile: Dockerfile
@@ -25,3 +24,14 @@ services:
       - ./app/frontend:/app
     #tty: true # 起動した状態でコンテナに維持
     command: yarn dev
+  backend:
+    build:
+      context: app/backend
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    depends_on:
+      - add-db
+    volumes:
+      - ./app/backend:/app
+    tty: true
