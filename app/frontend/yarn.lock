@@ -52,7 +52,7 @@
   dependencies:
     "@babel/types" "^7.26.3"
 
-"@babel/runtime@^7.12.5", "@babel/runtime@^7.18.3", "@babel/runtime@^7.26.0", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7":
+"@babel/runtime@^7.12.5", "@babel/runtime@^7.18.3", "@babel/runtime@^7.25.7", "@babel/runtime@^7.26.0", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7":
   version "7.26.0"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.26.0.tgz#8600c2f595f277c60815256418b85356a65173c1"
   integrity sha512-FDSOghenHTiToteC/QRlv2q3DhPZ/oOXTBoirfWNx1Cx3TMVcGWQtMMmQcSvb/JjpNeGzx8Pq/b4fKEJuWm1sw==
@@ -511,7 +511,7 @@
   resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.2.20.tgz#16d8c9178b42b62ba95bbedbda8f343feb373d1e"
   integrity sha512-straFHD7L8v05l/N5vcWk+y7eL9JF0C2mtph/y4BPm3gn2Eh61dDwDB65pa8DLss3WJfDXYC7Kx5yjP0EmXpgw==
 
-"@mui/utils@^6.3.0":
+"@mui/utils@^5.16.6 || ^6.0.0", "@mui/utils@^6.3.0":
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-6.3.0.tgz#76c80cb663c7c1bdf782de50a5c3f6ff8bf38e21"
   integrity sha512-MkDBF08OPVwXhAjedyMykRojgvmf0y/jxkBWjystpfI/pasyTYrfdv4jic6s7j3y2+a+SJzS9qrD6X8ZYj/8AQ==
@@ -522,6 +522,26 @@
     clsx "^2.1.1"
     prop-types "^15.8.1"
     react-is "^19.0.0"
+
+"@mui/x-data-grid@^7.23.5":
+  version "7.23.5"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-7.23.5.tgz#1c62c8672183db68e9e088335c8a166745740363"
+  integrity sha512-JmwdfaegpwO9Ei3PYCKy1FFip9AcdMGzZ0VTqzWE93pvDBVGxs/MZKT0g/8PYHJ6yzA5sBHHBxFN8sKfs7kVsg==
+  dependencies:
+    "@babel/runtime" "^7.25.7"
+    "@mui/utils" "^5.16.6 || ^6.0.0"
+    "@mui/x-internals" "7.23.5"
+    clsx "^2.1.1"
+    prop-types "^15.8.1"
+    reselect "^5.1.1"
+
+"@mui/x-internals@7.23.5":
+  version "7.23.5"
+  resolved "https://registry.yarnpkg.com/@mui/x-internals/-/x-internals-7.23.5.tgz#35033c76c36ae288a26bc17e543cc609d3a19d50"
+  integrity sha512-PS6p9qL7otbQ2edSF83GgTicssE0Q84Ta+X/5tSwoCnToEKClka1Wc/cXlsjhRVLmoqz8uTqaiNcZAgnyQWNYQ==
+  dependencies:
+    "@babel/runtime" "^7.25.7"
+    "@mui/utils" "^5.16.6 || ^6.0.0"
 
 "@next/env@15.1.3":
   version "15.1.3"
@@ -2679,6 +2699,11 @@ regexp.prototype.flags@^1.5.3:
     define-properties "^1.2.1"
     es-errors "^1.3.0"
     set-function-name "^2.0.2"
+
+reselect@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/reselect/-/reselect-5.1.1.tgz#c766b1eb5d558291e5e550298adb0becc24bb72e"
+  integrity sha512-K/BG6eIky/SBpzfHZv/dd+9JBFiS4SWV7FIujVyJRux6e45+73RaUHXLmIR1f7WOMaQ0U1km6qwklRQxpJJY0w==
 
 resolve-from@^4.0.0:
   version "4.0.0"
