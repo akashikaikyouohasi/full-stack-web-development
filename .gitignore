@@ -3,3 +3,6 @@ sakila-db/
 
 # VSCode
 .vscode/
+
+# Python コンパイル済みのバイトコードファイル
+__pycache__/
