@@ -11,3 +11,17 @@ services:
       TZ: Asia/Tokyo
     ports:
       - 53306:3306
+  frontend:
+    platform: linux/arm64/v8
+    build:
+      context: app/frontend
+      dockerfile: Dockerfile
+    ports:
+      - 18080:80
+      - 3000:3000
+    depends_on:
+      - add-db
+    volumes:
+      - ./app/frontend:/app
+    #tty: true # 起動した状態でコンテナに維持
+    command: yarn dev
