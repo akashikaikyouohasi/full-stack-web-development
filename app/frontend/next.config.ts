@@ -2,11 +2,11 @@
 
 const nextConfig = {};
 module.exports = {
-  async rewites() {
+  async rewrites() {
     return [
       {
-        source: 'api/:path*',
-        destination: 'http://host.docker/internal:8000/api/:path*/',
+        source: '/api/:path*',
+        destination: 'http://host.docker.internal:8000/api/:path*/',
       },
     ]
   }
