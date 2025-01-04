@@ -11,3 +11,4 @@
 - `django-admin startproject config .`でDjangoプロジェクト作成
 - `python manage.py migrate --settings config.settings.development`defaultマイグレーション
 - `python manage.py makemigrations --settings config.settings.development`でマイグレーションファイルの作成
+- `python manage.py migrate --settings config.settings.development`でmigrate実施
