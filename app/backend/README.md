@@ -12,3 +12,7 @@
 - `python manage.py migrate --settings config.settings.development`defaultマイグレーション
 - `python manage.py makemigrations --settings config.settings.development`でマイグレーションファイルの作成
 - `python manage.py migrate --settings config.settings.development`でmigrate実施
+    - 初期値作成
+        ```
+        INSERT INTO `app`.`hello` (`world`) VALUES ('123');
+        ```
