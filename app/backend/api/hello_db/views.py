@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-# Create your views here.
+from .models import Hello
+
+class Db(APIView):
+    def get(self, request, format=None):
+        # Getリクエストを受け取った時の処理
+        entry = Hello.objects.get(id=1)
+        return Response({"message": entry.world})
