@@ -20,20 +20,22 @@ type InventoryData = {
     inventory: number;
 }
 
-export default function Page() {
-    // 商品IDに当たる検索条件
-    const params = { id: 1 };
+export default function Page({ params }: {
+    params: { id: number },
+}) {
+    
 
     // 読み込みデータ保持
     const [product, setProduct] = useState<ProductData>({ id: 0, name: "", price: 0, description: "" });
     const [data, setData] = useState<Array<InventoryData>>([]);
 
     useEffect(() => {
+        // ヌリッシュ合体演算子を使用して、データがない場合のデフォルト値を設定
         const selectedProduct: ProductData = productsData.find( v => v.id == params.id) ?? {
-            id: 0,
-            name: "",
-            price: 0,
-            description: "",
+                id: 0,
+                name: "",
+                price: 0,
+                description: "",
             };
         setProduct(selectedProduct);
         setData(inventoriesData);
