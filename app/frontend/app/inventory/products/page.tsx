@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { useState, useEffect } from 'react'
 import productsData from "./sample/dummy_products.json"
 import Link from "next//link"
-import { describe } from "node:test";
 
 type ProductData = {
     id: number | null;
