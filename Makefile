@@ -11,7 +11,7 @@ down:
 clean:
 	docker-compose down --rmi all --volumes --remove-orphans
 ps:
-	docker ps 
+	docker-compose ps
 logs:
 	docker-compose logs
 
