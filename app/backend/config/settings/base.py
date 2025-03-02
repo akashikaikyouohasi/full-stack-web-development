@@ -29,16 +29,17 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-
+## Djangoで有効化されているすべてのDjangoアプリケーションの名前一覧
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework',
+    'django.contrib.admin', # 管理(admin)サイト
+    'django.contrib.auth', # 認証システム
+    'django.contrib.contenttypes', # コンテンツタイプのフレームワーク
+    'django.contrib.sessions', # セッションのフレームワーク
+    'django.contrib.messages', # メッセージのフレームワーク
+    'django.contrib.staticfiles', # 静的ファイルの管理フレームワーク
+    'rest_framework', # RESTful APIのフレームワーク
     'api.hello_db', #マイグレーションファイルの作成対象とする
+    'api.inventory', #モデルを利用することを知らせる
 ]
 
 MIDDLEWARE = [
