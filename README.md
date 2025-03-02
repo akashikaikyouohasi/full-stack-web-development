@@ -21,3 +21,10 @@
     - https://dev.mysql.com/doc/index-other.html
 - Next.jsの初期化コマンド
     - `yarn create next-app frontend --ts --eslint`
+- ENTRYPOINT と CMD の違い
+    - ENTRYPOINT:
+        - コンテナが起動したときに必ず実行されるコマンドを指定します。
+        - docker run コマンドで追加の引数を渡すことができます。
+    - CMD:
+        - デフォルトのコマンドを指定しますが、docker run コマンドで別のコマンドを指定すると上書きされます。
+        - ENTRYPOINT と組み合わせて使用することができます。
