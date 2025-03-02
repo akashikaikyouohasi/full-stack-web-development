@@ -8,6 +8,12 @@ stop:
 	docker-compose stop
 down:
 	docker-compose down
+clean:
+	docker-compose down --rmi all --volumes --remove-orphans
+ps:
+	docker ps 
+logs:
+	docker-compose logs
 
 frontend:
 	docker-compose exec frontend bash
@@ -18,7 +24,6 @@ backend:
 	docker-compose exec backend bash
 backend-logs:
 	docker-compose logs backend
-
 
 mysql:
 	mysql -h 127.0.0.1 -P 53306 -u root -ppassword

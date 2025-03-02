@@ -11,6 +11,8 @@ services:
       TZ: Asia/Tokyo
     ports:
       - 53306:3306
+    volumes:
+      - db_data:/var/lib/mysql #ここにデータ永続化するためのファイルが入る。
   frontend:
     build:
       context: app/frontend
@@ -36,4 +38,5 @@ services:
       - ./app/backend:/app
     tty: true
     command: python manage.py runserver 0.0.0.0:8000 --settings config.settings.development
-
+volumes:
+  db_data:
