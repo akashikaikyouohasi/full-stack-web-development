@@ -18,7 +18,11 @@
         ```
 - `cd api; django-admin startapp inventory`でDjangoプロジェクト内で新しいアプリケーション（inventoryフォルダー）作成する
 - マイグレーション方法
-    - マイグレーションファイル生成`python manage.py makemigrations inventory --settings config.settings.development`
+    - マイグレーションファイル生成：`python manage.py makemigrations inventory --settings config.settings.development`
+      - `--settings config.settings.development`はDB接続情報など環境情報
+      - `manage.py`は、Djangoプロジェクトの管理タスクを実行するためのコマンドラインユーティリティ
+    - マイグレーション実施：`python manage.py migrate --settings config.settings.development`
+- マイグレーションで実行されるSQLの確認方法：`python manage.py sqlmigrate inventory 0001 --settings config.settings.development`
 ### アプリケーションファイルの説明
 - `__init__.py`:
   - このファイルは、ディレクトリをPythonパッケージとして認識させるためのものです。
