@@ -17,6 +17,8 @@
         INSERT INTO `app`.`hello` (`world`) VALUES ('123');
         ```
 - `cd api; django-admin startapp inventory`でDjangoプロジェクト内で新しいアプリケーション（inventoryフォルダー）作成する
+- マイグレーション方法
+    - マイグレーションファイル生成`python manage.py makemigrations inventory --settings config.settings.development`
 ### アプリケーションファイルの説明
 - `__init__.py`:
   - このファイルは、ディレクトリをPythonパッケージとして認識させるためのものです。
