@@ -26,6 +26,7 @@ backend-logs:
 	docker-compose logs backend
 migration-inventory:
 	docker-compose exec backend bash -c "python manage.py makemigrations inventory --settings config.settings.development"
+	docker-compose exec backend bash -c "python manage.py migrate --settings config.settings.development"
 
 mysql:
 	mysql -h 127.0.0.1 -P 53306 -u root -ppassword
