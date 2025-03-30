@@ -27,7 +27,9 @@ backend-logs:
 migration-inventory:
 	docker-compose exec backend bash -c "python manage.py makemigrations inventory --settings config.settings.development"
 	docker-compose exec backend bash -c "python manage.py migrate --settings config.settings.development"
-	mysql -h 127.0.0.1 -P 53306 -u root -ppassword -e "INSERT INTO product (name, price, description) VALUES ('コットン100%バックリボンティアードワンピース（黒）', 6900, '大人の愛らしさを引き立てる、ナチュラルな風合い。リラックスxトレンドを楽しめる、上品なティアードワンピース。');"
+	mysql -h 127.0.0.1 -P 53306 -u root -ppassword -e "use app; INSERT INTO product (name, price, description) VALUES ('コットン100%バックリボンティアードワンピース（黒）', 6900, '大人の愛らしさを引き立てる、ナチュラルな風合い。リラックスxトレンドを楽しめる、上品なティアードワンピース。');"
+	mysql -h 127.0.0.1 -P 53306 -u root -ppassword -e "use app; INSERT INTO purchase (product_id, quantity, purchase_date) VALUES (1, 10, '2025-3-30 10:00:00');"
+	mysql -h 127.0.0.1 -P 53306 -u root -ppassword -e "use app; INSERT INTO sales (product_id, quantity, sales_date) VALUES (1, 10, '2025-3-31 10:00:00');"
 
 mysql:
 	mysql -h 127.0.0.1 -P 53306 -u root -ppassword
