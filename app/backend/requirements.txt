@@ -1,2 +1,4 @@
+Django
 djangorestframework
+djangorestframework_simplejwt
 mysqlclient
