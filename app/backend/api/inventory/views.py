@@ -1,4 +1,6 @@
-from django.db.models import F, Value
+from api.inventory.exception import BusinessException
+from django.db.models import F, Value, Sum
+from django.db.models.functions import Coalesce
 from rest_framework.views import APIView
 from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
@@ -79,6 +81,16 @@ class SalesView(APIView):
         """
         serializer = SaleSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        # 在庫が売る分の数量を超えないかチャック
+        # aggregate は、クエリセットに対して集計処理を行うための集計関数。オプションとしてSumを利用している
+        # coalesceは、SQLで、与えられた引数のうち、NULLでない最初の引数を返す。quantity_sumがNULLの場合は0を返す。
+        purchase = Purchase.objects.filter(product_id=request.data['product']).aggregate(quantity_sum=Coalesce(Sum('quantity'),0)) # 在庫テーブルのレコードを取得
+        sales = Sales.objects.filter(product_id=request.data['product']).aggregate(quantity_sum=Coalesce(Sum('quantity'), 0)) # 卸しテーブルのレコードを取得
+
+        # 在庫が売る分の数量を超えている場合はエラーレスポンスを返す
+        if purchase['quantity_sum'] < ( sales['quantity_sum'] + int(request.data['quantity'])):
+            raise BusinessException('在庫数量を超過することができません')
+
         serializer.save()
         return Response(serializer.data, status.HTTP_201_CREATED)
 
