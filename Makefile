@@ -24,20 +24,30 @@ backend:
 	docker-compose exec backend bash
 backend-logs:
 	docker-compose logs backend
+backend-remove-image:
+	docker-compose stop backend
+	docker-compose rm -f backend
+	docker rmi full-stack-web-development-backend
 migration-inventory:
 	docker-compose exec backend bash -c "python manage.py makemigrations inventory --settings config.settings.development"
 	docker-compose exec backend bash -c "python manage.py migrate --settings config.settings.development"
 	mysql -h 127.0.0.1 -P 53306 -u root -ppassword -e "use app; INSERT INTO product (name, price, description) VALUES ('コットン100%バックリボンティアードワンピース（黒）', 6900, '大人の愛らしさを引き立てる、ナチュラルな風合い。リラックスxトレンドを楽しめる、上品なティアードワンピース。');"
 	mysql -h 127.0.0.1 -P 53306 -u root -ppassword -e "use app; INSERT INTO purchase (product_id, quantity, purchase_date) VALUES (1, 10, '2025-3-30 10:00:00');"
 	mysql -h 127.0.0.1 -P 53306 -u root -ppassword -e "use app; INSERT INTO sales (product_id, quantity, sales_date) VALUES (1, 10, '2025-3-31 10:00:00');"
+backend-init-password:
+	docker-compose exec backend bash -c "python manage.py createsuperuser --username=t-yamada --email=t-yamada@example.com --settings config.settings.development"
 
 mysql:
 	mysql -h 127.0.0.1 -P 53306 -u root -ppassword
 mysql-logs:
 	docker-compose logs mysql
 
+
 init:
 	make up
 	mysql -h 127.0.0.1 -P 53306 -u root -ppassword -e "CREATE DATABASE app;"
 	mysql -h 127.0.0.1 -P 53306 -u root -ppassword < ./initial-data/sakila-db/sakila-schema.sql
 	mysql -h 127.0.0.1 -P 53306 -u root -ppassword < ./initial-data/sakila-db/sakila-data.sql
+	make migration-inventory
+	make backend-init-password
+
