@@ -51,3 +51,7 @@ init:
 	make migration-inventory
 	make backend-init-password
 
+access-test:
+	curl -X GET -H "Content-Type: application/json" \
+	-H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ0MTU2ODk0LCJpYXQiOjE3NDQxNTU5OTQsImp0aSI6ImVjOTRlZTVlMjlhYzRmNGJhMjlhNjBkMmU0NjQ5NzE3IiwidXNlcl9pZCI6MX0.59Ozh7n4xCrTn-J6sNmZHK7xlCIZUw5JyKr_1GjvSH8' \
+	http://127.0.0.1:8000/api/inventory/products/ | jq
