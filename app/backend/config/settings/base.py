@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from timedelta import datetime
+import datetime
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework', # RESTful APIのフレームワーク
     'api.hello_db', #マイグレーションファイルの作成対象とする
     'api.inventory', #モデルを利用することを知らせる
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [
@@ -146,12 +147,13 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'DEFAULT_PREMiSSION_CLASSES': ['rest_framework.permissions.IsAuthenticated']
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated']
 }
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=30),
     'ROTATE_REFRESH_TOKENS': True, # リフレッシュトークンのローテートで、リフレッシュトークンを返す
+    'BLACKLIST_AFTER_ROTATION': True,  # リフレッシュトークンをローテートした後、古いトークンをブラックリストに登録する
     'UPDATE_LAST_LOGIN': True, # ログイン時にauth_userテーブルのlast_loginを更新する
 }

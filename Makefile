@@ -1,3 +1,5 @@
+.PHONY: mysql
+
 # Dockerfileに更新があった場合、ビルドし直す用
 build:
 	docker-compose build --no-cache
@@ -52,6 +54,15 @@ init:
 	make backend-init-password
 
 access-test:
+	@echo "Testing the backend API without authentication token..."
 	curl -X GET -H "Content-Type: application/json" \
-	-H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ0MTU2ODk0LCJpYXQiOjE3NDQxNTU5OTQsImp0aSI6ImVjOTRlZTVlMjlhYzRmNGJhMjlhNjBkMmU0NjQ5NzE3IiwidXNlcl9pZCI6MX0.59Ozh7n4xCrTn-J6sNmZHK7xlCIZUw5JyKr_1GjvSH8' \
 	http://127.0.0.1:8000/api/inventory/products/ | jq
+	@echo "Accessing the backend API to test if it's running..."
+	curl -X GET -H "Content-Type: application/json" \
+	-H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ4Njc0NDk5LCJpYXQiOjE3NDg2Njg2NzMsImp0aSI6ImM2MjViNDRhODE2ZTQyYjNhNzk5NjUwMmI4M2Q3OTQ0IiwidXNlcl9pZCI6MX0.F5r6k-CsC8s5hQa8ioLlkxAHLTbIRgcrtNpigt72dt4' \
+	http://127.0.0.1:8000/api/inventory/products/ | jq
+
+get-refresh-token:
+	curl -X POST -H "Content-Type: application/json" \
+	-d '{"refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1MTI2MDY3MywiaWF0IjoxNzQ4NjY4NjczLCJqdGkiOiJkYzg1OWNhNmE3Yjg0NWQzOTFjYjBiNmVkZWQ5MWY1NiIsInVzZXJfaWQiOjF9.QrkMBT4QAY2Lwf4LRClh-xfPo5awIH2zavsNqu9Qwqo"}' \
+	http://127.0.0.1:8000/api/inventory/token/refresh/ | jq
