@@ -145,6 +145,7 @@ LOGGING = {
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'api.inventory.authentication.AccessJWTAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated']
@@ -157,3 +158,6 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,  # リフレッシュトークンをローテートした後、古いトークンをブラックリストに登録する
     'UPDATE_LAST_LOGIN': True, # ログイン時にauth_userテーブルのlast_loginを更新する
 }
+
+# クッキーの有効期限に使用する
+COOKIE_TIME = 60 * 60 * 12

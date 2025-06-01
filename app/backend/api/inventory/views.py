@@ -1,4 +1,5 @@
 from api.inventory.exception import BusinessException
+from django.conf import settings
 from django.db.models import F, Value, Sum
 from django.db.models.functions import Coalesce
 from rest_framework.views import APIView
@@ -6,6 +7,8 @@ from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from api.inventory.authentication import AccessJWTAuthentication, RefreshJWTAuthentication
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, TokenRefreshSerializer
 from .models import Product, Purchase, Sales
 from .serializers import InventorySelializer, ProductSerializer, PurchaseSerializer, SaleSerializer
 from rest_framework import status
@@ -16,7 +19,7 @@ class ProductView(APIView):
     商品操作に関する関数
     """
     # 認証クラスの指定
-    authentication_classes = [JWTAuthentication]
+    authentication_classes = [AccessJWTAuthentication, JWTAuthentication]
     # アクセス許可の指定
     # 認証済みのリクエストのみ許可
     permission_classes = [IsAuthenticated]
@@ -119,3 +122,57 @@ class InventoryView(APIView):
             serializer = InventorySelializer(queryset, many=True)
         return Response(serializer.data, status.HTTP_200_OK)
     
+class LoginView(APIView):
+    """
+    ユーザーのログイン処理
+    Args：
+        APIView (class): rest_framework.viewsのAPI Viewを受け取る
+    """
+    # 認証クラスの指定
+    # リクエストヘッダーにtokenを差し込むといったカスタム動作をしたいので素の認証クラスを使用する
+    authentication_classes = [JWTAuthentication]
+    # アクセス許可の指定
+    permission_classes = []
+
+    def post(self, request):
+        serializer = TokenObtainPairSerializer(data=request.data) # TokenObtainPairSerializerは、ユーザー名とパスワードを受け取り、アクセストークンとリフレッシュトークンを生成するためのシリアライザ
+        serializer.is_valid(raise_exception=True)
+        access = serializer.validated_data.get("access", None) # アクセストークンを取得
+        print(f"Setting access cookie: {access[:20]}...") # デバッグ用にアクセストークンの先頭20文字を表示
+
+        refresh = serializer.validated_data.get("refresh", None) # リフレッシュトークンを取得
+        if access:
+            response = Response(status=status.HTTP_200_OK)
+            max_age = settings.COOKIE_TIME
+            response.set_cookie('access', access, httponly=True, max_age=max_age) # httponly=Trueは、Cookieに設定できる属性の一つで、JavaScriptなどのクライアントサイドスクリプトからアクセスできないようにする
+            response.set_cookie('refresh', refresh, httponly=True, max_age=max_age)
+            return response
+        return Response({'errMsg': 'ユーザー認証に失敗しました'}, status=status.HTTP_401_UNAUTHORIZED)
+
+class RetryView(APIView):
+    authentication_classes = [RefreshJWTAuthentication]
+    permission_classes = []
+    def post(self, request):
+        request.data['refresh'] = request.META.get('HTTP_REFRESH_TOKEN')
+        serializer = TokenRefreshSerializer(data=request.data) # TokenRefreshSerializerは、リフレッシュトークンを受け取り、新しいアクセストークンとリフレッシュトークンを生成するためのシリアライザ
+        serializer.is_valid(raise_exception=True)
+        access = serializer.validated_data.get("access", None)
+        refresh = serializer.validated_data.get("refresh", None)
+        print(f"Setting refresh cookie: {refresh[:20]}...") # デバッグ用にrefreshトークンの先頭20文字を表示
+
+        if access:
+            response = Response(status=status.HTTP_200_OK)
+            max_age = settings.COOKIE_TIME
+            response.set_cookie('access', access, httponly=True, max_age=max_age) # httponly=Trueは、Cookieに設定できる属性の一つで、JavaScriptなどのクライアントサイドスクリプトからアクセスできないようにする
+            response.set_cookie('refresh', refresh, httponly=True, max_age=max_age)
+            return response
+        return Response({'errMsg': 'ユーザー認証に失敗しました'}, status=status.HTTP_401_UNAUTHORIZED)
+
+class LogoutView(APIView):
+    authentication_classes = []
+    permission_classes = []
+    def post(self, request, *args):
+        response = Response(status=status.HTTP_200_OK)
+        response.delete_cookie('access')
+        response.delete_cookie('refresh')
+        return response
