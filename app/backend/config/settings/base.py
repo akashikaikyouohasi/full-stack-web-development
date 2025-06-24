@@ -152,7 +152,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=15),
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=30),
     'ROTATE_REFRESH_TOKENS': True, # リフレッシュトークンのローテートで、リフレッシュトークンを返す
     'BLACKLIST_AFTER_ROTATION': True,  # リフレッシュトークンをローテートした後、古いトークンをブラックリストに登録する
