@@ -1,5 +1,6 @@
 'use client'
 
+import axios from "axios";
 import {
     Alert,
     AlertColor,
@@ -59,10 +60,18 @@ export default function Page() {
     const handleClose = (event: any, reason: any) => {
         setOpen(false);
     };
-
     useEffect(() => {
-        setData(productsData);
-    }, [])
+        axios.get('/api/inventory/products')
+            .then((res) => res.data)
+            .then((data) => {
+                setData(data)
+            })
+    }, [open])
+    
+
+    // useEffect(() => {
+    //     setData(productsData);
+    // }, [])
 
     const [id, setId] = useState<number | null>(0);
     // submit時のactionを分岐させる

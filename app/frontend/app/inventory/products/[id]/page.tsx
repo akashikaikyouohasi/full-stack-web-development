@@ -1,5 +1,6 @@
 'use client'
 
+import axios from "axios";
 import {
     Alert,
     AlertColor,
@@ -73,15 +74,32 @@ export default function Page({ params }: {
     };
 
     useEffect(() => {
-        // ヌリッシュ合体演算子を使用して、データがない場合のデフォルト値を設定
-        const selectedProduct: ProductData = productsData.find( v => v.id == params.id) ?? {
-                id: 0,
-                name: "",
-                price: 0,
-                description: "",
-            };
-        setProduct(selectedProduct);
-        setData(inventoriesData);
+        axios.get(`/api/inventory/products/${params.id}`)
+            .then((response) => {
+                setProduct(response.data);
+        });
+        axios.get(`/api/inventory/inventories/${params.id}`)
+            .then((response) => {
+                const inventoryData: InventoryData[] = [];
+                let key: number = 1;
+                let inventory: number = 0;
+
+                response.data.forEach((e: InventoryData) => {
+                    // 売るときは在庫数からひく
+                    inventory += e.type === 1 ? e.quantity : e.quantity * -1;
+                    const newElement = {
+                        id: key++,
+                        type: e.type,
+                        date: e.date,
+                        unit: e.unit,
+                        quantity: e.quantity,
+                        price: e.price,
+                        inventory: inventory,
+                    };
+                    inventoryData.unshift(newElement);
+                });
+                setData(inventoryData);
+            });
     }, [open])
 
     const onSubmit = (event: any): void => {
